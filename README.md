@@ -34,16 +34,16 @@ Github Explorer is a web application that allows users to search for GitHub user
 
    ```
 
-2. Install dependencies:
-   cd Github-Explorer
+2. Install dependencies:  
+   cd Github-Explorer  
    npm install
 
-3. Start the development server:
-   npm start
+3. Start the development server:  
+   npm start  
    The app will be accessible at http://localhost:3000.
 
 ##Usage
 
-1. Enter a GitHub username in the search bar.
-2. Click the "Search" button.
-3. Explore user details and repositories.
+1. Enter a GitHub username in the search bar.  
+2. Click the "Search" button.  
+3. Explore user details and repositories.  
