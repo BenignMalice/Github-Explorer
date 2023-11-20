@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App snapshot 1`] = `
+<div
+  className="container"
+>
+  <h1>
+    Github User Search
+  </h1>
+  <div>
+    <input
+      onChange={[Function]}
+      placeholder="Enter Github username"
+      type="text"
+      value=""
+    />
+    <button
+      disabled={false}
+      onClick={[Function]}
+    >
+      Search
+    </button>
+  </div>
+</div>
+`;
