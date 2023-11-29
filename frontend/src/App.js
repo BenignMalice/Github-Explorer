@@ -1,7 +1,11 @@
 // Import necessary modules
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import SearchForm from "./components/SearchForm";
+import UserInfo from "./components/UserInfo";
+import Repositories from "./components/Repositories";
+import RepositoryDetails from "./components/RepositoryDetails";
+import CommitDetails from "./components/CommitDetails";
 import "./App.css";
-import { AiOutlineLoading } from "react-icons/ai";
 
 // Define the main App component
 function App() {
@@ -13,7 +17,6 @@ function App() {
   const [selectedRepo, setSelectedRepo] = useState(null);
   const [repoDetails, setRepoDetails] = useState(null);
   const [commits, setCommits] = useState([]);
-  const [readmeContent, setReadmeContent] = useState(null);
   const [loading, setLoading] = useState(false);
 
   // Function to handle user search
@@ -96,125 +99,36 @@ function App() {
       const commitsData = await commitsResponse.json();
       setCommits(commitsData);
 
-      // Fetch README.md content
-      const readmeResponse = await fetch(
-        `https://api.github.com/repos/${username}/${repoName}/readme`
-      );
-
-      if (readmeResponse.ok) {
-        const readmeData = await readmeResponse.json();
-
-        if (readmeData && readmeData.content) {
-          // Decode base64 content
-          const decodedContent = atob(readmeData.content);
-          // Set the README.md content
-          setReadmeContent(decodedContent);
-        }
-      }
+      // Set the selected repo for styling purposes
+      setSelectedRepo(repoName);
     } catch (err) {
       // Handle errors and update relevant states
       console.error("Error fetching repository details:", err);
       setRepoDetails(null);
       setCommits([]);
-      setReadmeContent(null);
     }
-
-    // Set the selected repo for styling purposes
-    setSelectedRepo(repoName);
   };
 
   return (
     <div className="container">
       <h1>Github User Search</h1>
-      <div>
-        <input
-          type="text"
-          placeholder="Enter Github username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <button onClick={handleSearch} disabled={loading}>
-          {loading ? <AiOutlineLoading className="loading-icon" /> : "Search"}
-        </button>
-      </div>
-
+      <SearchForm
+        username={username}
+        setUsername={setUsername}
+        handleSearch={handleSearch}
+        loading={loading}
+      />
       {error && <p className="error">{error}</p>}
-
-      {userData && (
-        <div className="user-section">
-          <img className="avatar" src={userData.avatar_url} alt="Profile" />
-          <div className="user-info">
-            <h2>{userData.login}</h2>
-
-            <p>
-              GitHub Profile:{" "}
-              <a
-                href={`https://github.com/${userData.login}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {`https://github.com/${userData.login}`}
-              </a>
-            </p>
-            <p>{userData.bio}</p>
-          </div>
-        </div>
-      )}
-
+      {userData && <UserInfo userData={userData} />}
       {repos.length > 0 && (
-        <div className="repositories">
-          <h3>Repositories:</h3>
-          <div className="repository-list">
-            {repos.map((repo) => (
-              <div
-                key={repo.name}
-                onClick={() => handleRepoClick(repo.name)}
-                className={`repository-item ${
-                  selectedRepo === repo.name ? "selected-repo" : ""
-                }`}
-              >
-                {repo.name}
-              </div>
-            ))}
-          </div>
-        </div>
+        <Repositories
+          repos={repos}
+          selectedRepo={selectedRepo}
+          handleRepoClick={handleRepoClick}
+        />
       )}
-
-      {repoDetails && (
-        <div id="repository-details" className="repository-details">
-          <h3>Repository Details:</h3>
-
-          <p>{`Name: ${repoDetails.name}`}</p>
-          <p>{`Description: ${repoDetails.description || "N/A"}`}</p>
-          <p>{`Created at: ${new Date(
-            repoDetails.created_at
-          ).toLocaleDateString()}`}</p>
-          <p>{`Last commit at: ${new Date(
-            repoDetails.updated_at
-          ).toLocaleDateString()}`}</p>
-          <p>
-            Link:{" "}
-            <a
-              href={`https://www.github.com/${username}/${repoDetails.name}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {repoDetails.name}
-            </a>
-          </p>
-        </div>
-      )}
-
-      {commits.length > 0 && (
-        <div className="commit-details">
-          <h3>Last 5 Commits:</h3>
-          <ul>
-            {commits.map((commit) => (
-              <li key={commit.sha}>{commit.commit.message}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {repoDetails && <RepositoryDetails repoDetails={repoDetails} />}
+      {commits.length > 0 && <CommitDetails commits={commits} />}
     </div>
   );
 }
