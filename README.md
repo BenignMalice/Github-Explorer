@@ -35,12 +35,12 @@ Github Explorer is a web application that allows users to search for GitHub user
    ```
 
 2. Install dependencies:  
-   cd github-explorer  
-   cd backend
+   cd github-explorer    
+   cd backend  
    npm install
 
-   cd frontend
-   npm install
+   cd frontend  
+   npm install  
 
 3. Start the development server:  
    In backend folder -
