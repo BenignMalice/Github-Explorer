@@ -1,5 +1,6 @@
 import React from "react";
 
+// Functional component to display the details of a specific repository
 function RepositoryDetails({ repoDetails }) {
   return (
     <div id="repository-details" className="repository-details">

@@ -1,6 +1,7 @@
 import React from "react";
 import { AiOutlineLoading } from "react-icons/ai";
 
+// Functional component for handling user searches
 function SearchForm({ username, setUsername, handleSearch, loading }) {
   return (
     <div>

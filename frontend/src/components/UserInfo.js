@@ -1,5 +1,6 @@
 import React from "react";
 
+// Functional component for displaying GitHub user information
 function UserInfo({ userData }) {
   return (
     <div className="user-section">

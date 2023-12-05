@@ -1,5 +1,6 @@
 import React from "react";
 
+// Functional component for displaying a list of repositories
 function Repositories({ repos, selectedRepo, handleRepoClick }) {
   return (
     <div className="repositories">

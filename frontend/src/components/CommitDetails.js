@@ -1,5 +1,6 @@
 import React from "react";
 
+// Functional component for displaying commit details
 function CommitDetails({ commits }) {
   return (
     <div className="commit-details">
